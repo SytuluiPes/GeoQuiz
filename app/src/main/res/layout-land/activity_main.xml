@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="85dp"
         android:layout_gravity="center_horizontal"
         tools:text="@string/question_australia"/>
 
@@ -43,11 +43,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/next_button"
-            android:id="@+id/next_button"
-            android:drawableEnd="@drawable/arrow_right"/>
+            android:text="@string/cheat_button"
+            android:id="@+id/cheat_button"/>
 
     </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:text="@string/next_button"
+        android:id="@+id/next_button"
+        android:drawableEnd="@drawable/arrow_right"/>
 
 </FrameLayout>
 
