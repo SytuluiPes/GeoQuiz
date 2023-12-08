@@ -11,10 +11,12 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 private const val TAG = "MainActivity"
 private const val KEY_INDEX = "index"
+const val REQUEST_CODE_CHEAT = 0
+const val USER_SHOW_ANSWER = 1
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var nextButton: Button
     private lateinit var cheatButton: Button
     private lateinit var questionTextView: TextView
+
+    private fun toast(resId : Int){
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+    }
+    private fun toast(resId : String){
+        Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
+    }
 
     private val quizViewModel: QuizViewModel by lazy {
         ViewModelProvider(this).get(QuizViewModel::class.java)
@@ -49,11 +58,8 @@ class MainActivity : AppCompatActivity() {
                 questionTextView.setText(questionTextResId)
             } else {
                 if (quizViewModel.currentIndex == 0) {
-                    Toast.makeText(
-                        this,
-                        "${(quizViewModel.score / quizViewModel.questionBank.size.toDouble() * 100).toInt()}% is true.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    toast("${(quizViewModel.score / quizViewModel.questionBank.size.toDouble()
+                            * 100).toInt()}% is true.")
                     quizViewModel.score = 0
                 }
                 val questionTextResId = quizViewModel.currentQuestionText
@@ -66,10 +72,10 @@ class MainActivity : AppCompatActivity() {
             if (isNotClicked) {
                 isNotClicked = false
                 if (userAnswer == quizViewModel.currentQuestionAnswer) {
-                    Toast.makeText(this, R.string.correct_toast, Toast.LENGTH_SHORT).show()
+                    toast(R.string.correct_toast)
                     quizViewModel.score++
                 } else
-                    Toast.makeText(this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show()
+                    toast(R.string.incorrect_toast)
             }
         }
         questionTextView.setOnClickListener {
@@ -89,16 +95,26 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
         cheatButton.setOnClickListener {
-            val answerIsTrue = quizViewModel.currentQuestionAnswer
-            val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
-            startActivity(intent)
-            updateQuestion(true)
+            val intent = Intent(this, CheatActivity::class.java)
+            startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
+        updateQuestion(true)
     }
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         Log.i(TAG, "onSaveInstanceState")
         savedInstanceState.putInt(KEY_INDEX, quizViewModel.currentIndex)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+             REQUEST_CODE_CHEAT -> {
+                 when (resultCode) {
+                     USER_SHOW_ANSWER -> toast(R.string.judgmental_message)
+                 }
+             }
+        }
     }
 
 }

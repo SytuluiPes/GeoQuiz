@@ -1,5 +1,6 @@
 package com.example.geoquiz
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +12,8 @@ private const val EXTRA_ANSWER_IS_TRUE = "com.example.geoquiz.answer_is_true"
 class CheatActivity : AppCompatActivity() {
 
     private var answerIsTrue = false
-    lateinit var showAnswerButton : Button
-    lateinit var answerTextView : TextView
+    lateinit var showAnswerButton: Button
+    lateinit var answerTextView: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
@@ -27,14 +28,7 @@ class CheatActivity : AppCompatActivity() {
                 else -> R.string.false_button
             }
             answerTextView.setText(answerText)
-        }
-    }
-
-    companion object {
-        fun newIntent(packageContext: Context, answerIsTrue: Boolean) : Intent{
-            return Intent(packageContext, CheatActivity::class.java).apply{
-                putExtra(EXTRA_ANSWER_IS_TRUE, answerIsTrue)
-            }
+            setResult(USER_SHOW_ANSWER)
         }
     }
 }
