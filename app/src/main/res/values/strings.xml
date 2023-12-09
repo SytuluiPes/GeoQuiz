@@ -10,6 +10,9 @@
     <string name="show_answer_button">SHOW ANSWER</string>
     <string name="warning_message">Are you sure you want to do this?</string>
     <string name="judgmental_message">Cheating is wrong.</string>
+    <string name="api_level">API Level %1$d</string>
+    <string name="help_remaining">Remaining %1$d helps</string>
+    <string name="help_remaining_is_null">No more help</string>
 
     <string name="question_australia">Canberra is the capital of Australia.</string>
     <string name="question_oceans">The Pacific
